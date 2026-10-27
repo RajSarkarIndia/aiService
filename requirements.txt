@@ -1,0 +1,9 @@
+fastapi
+uvicorn[standard]
+python-multipart
+pydantic
+huggingface_hub
+Pillow
+torch
+transformers>=5.0.0
+sentence-transformers[image]

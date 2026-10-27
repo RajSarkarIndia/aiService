@@ -1,0 +1,65 @@
+Byte-compiled / optimized / DLL files
+
+pycache/
+*.py[cod]
+*$py.class
+
+Virtual Environment
+
+venv/
+env/
+ENV/
+.venv/
+
+Hugging Face & PyTorch model downloads/caches
+
+.cache/
+hf_cache/
+checkpoints/
+*.pt
+*.pth
+*.bin
+*.safetensors
+*.onnx
+
+Media test files (avoid committing large video/audio/images)
+
+*.mp4
+*.webm
+*.mov
+*.avi
+*.mkv
+*.wav
+*.mp3
+*.flac
+*.ogg
+*.png
+*.jpg
+*.jpeg
+*.webp
+*.heic
+
+Environment variables & secrets
+
+.env
+.env.*
+!.env.example
+
+IDE & Editor files
+
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+Operating System files
+
+.DS_Store
+Thumbs.db
+
+Logs & temp files
+
+*.log
+tmp/
+temp/
