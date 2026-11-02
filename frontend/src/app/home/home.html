@@ -1,0 +1,92 @@
+<div class="min-h-screen bg-gray-950 text-white font-sans p-6 flex flex-col items-center">
+  <!-- Project Title -->
+  <h1 class="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-indigo-500 mb-10 tracking-widest uppercase shadow-sm">
+    AISaysHelloToAi
+  </h1>
+
+  <!-- Top AI Score Display -->
+  <div class="w-full max-w-5xl backdrop-blur-xl bg-white/5 border border-white/10 shadow-[0_8px_32px_0_rgba(31,38,135,0.37)] rounded-3xl p-10 mb-10 flex flex-col items-center justify-center transition-all duration-500 ease-in-out">
+    <h2 class="text-sm font-semibold text-gray-400 uppercase tracking-[0.3em] mb-4">Detection Probability</h2>
+
+    <div class="text-9xl font-black transition-all duration-500" [ngClass]="getScoreColor()">
+      {{ aiScore !== null ? aiScore + '%' : '--' }}
+    </div>
+
+    <div class="mt-6 h-6 flex items-center justify-center">
+      <div *ngIf="loading" class="animate-pulse flex space-x-2">
+        <div class="w-2 h-2 bg-cyan-400 rounded-full"></div>
+        <div class="w-2 h-2 bg-cyan-400 rounded-full animation-delay-200"></div>
+        <div class="w-2 h-2 bg-cyan-400 rounded-full animation-delay-400"></div>
+      </div>
+      <p class="text-md text-gray-400 font-mono tracking-wide" *ngIf="!loading">{{ statusMessage }}</p>
+    </div>
+  </div>
+
+  <!-- High-Contrast Glassmorphism Grid for Modalities -->
+  <div class="w-full max-w-5xl grid grid-cols-1 md:grid-cols-2 gap-8">
+
+    <!-- Text Modality -->
+    <div class="backdrop-blur-lg bg-black/40 border border-gray-800 rounded-2xl p-6 hover:bg-white/5 hover:border-cyan-500/50 transition-all duration-300 group">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-xl font-bold text-cyan-400 group-hover:text-cyan-300 transition">Text String</h3>
+        <span class="text-xs font-mono text-gray-600 bg-gray-900 px-2 py-1 rounded">DeBERTa-v3</span>
+      </div>
+      <textarea [(ngModel)]="textContent" (input)="onInput('Text')" rows="5"
+                class="w-full bg-gray-900/80 border border-gray-700 rounded-xl p-4 text-gray-200 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all resize-none shadow-inner"
+                placeholder="Enter text payload..."></textarea>
+      <button (click)="analyzeText()" [disabled]="loading || !textContent.trim()"
+              class="mt-4 w-full bg-cyan-600/20 hover:bg-cyan-500/40 border border-cyan-500/50 text-cyan-300 font-semibold py-3 px-4 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed">
+        Execute Text Analysis
+      </button>
+    </div>
+
+    <!-- Image Modality -->
+    <div class="backdrop-blur-lg bg-black/40 border border-gray-800 rounded-2xl p-6 hover:bg-white/5 hover:border-pink-500/50 transition-all duration-300 group">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-xl font-bold text-pink-400 group-hover:text-pink-300 transition">Image Frame</h3>
+        <span class="text-xs font-mono text-gray-600 bg-gray-900 px-2 py-1 rounded">Smaug-Detect</span>
+      </div>
+      <div class="w-full h-32 border-2 border-dashed border-gray-700 rounded-xl flex items-center justify-center bg-gray-900/50 hover:border-pink-500/50 transition-colors relative overflow-hidden">
+        <input type="file" (change)="onFileSelected($event, 'image')" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"/>
+        <p class="text-sm font-mono text-gray-500 pointer-events-none">Drop image or click to browse</p>
+      </div>
+      <button (click)="analyzeFile('image/detect')" [disabled]="!selectedFile || loading"
+              class="mt-4 w-full bg-pink-600/20 hover:bg-pink-500/40 border border-pink-500/50 text-pink-300 font-semibold py-3 px-4 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed">
+        Execute Image Analysis
+      </button>
+    </div>
+
+    <!-- Video Modality -->
+    <div class="backdrop-blur-lg bg-black/40 border border-gray-800 rounded-2xl p-6 hover:bg-white/5 hover:border-purple-500/50 transition-all duration-300 group">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-xl font-bold text-purple-400 group-hover:text-purple-300 transition">Video Stream</h3>
+        <span class="text-xs font-mono text-gray-600 bg-gray-900 px-2 py-1 rounded">PyAV Extraction</span>
+      </div>
+      <div class="w-full h-32 border-2 border-dashed border-gray-700 rounded-xl flex items-center justify-center bg-gray-900/50 hover:border-purple-500/50 transition-colors relative overflow-hidden">
+        <input type="file" (change)="onFileSelected($event, 'video')" accept="video/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"/>
+        <p class="text-sm font-mono text-gray-500 pointer-events-none">Drop video or click to browse</p>
+      </div>
+      <button (click)="analyzeFile('video/detect')" [disabled]="!selectedFile || loading"
+              class="mt-4 w-full bg-purple-600/20 hover:bg-purple-500/40 border border-purple-500/50 text-purple-300 font-semibold py-3 px-4 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed">
+        Execute Video Analysis
+      </button>
+    </div>
+
+    <!-- Audio Modality -->
+    <div class="backdrop-blur-lg bg-black/40 border border-gray-800 rounded-2xl p-6 hover:bg-white/5 hover:border-emerald-500/50 transition-all duration-300 group">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-xl font-bold text-emerald-400 group-hover:text-emerald-300 transition">Audio Wave</h3>
+        <span class="text-xs font-mono text-gray-600 bg-gray-900 px-2 py-1 rounded">Wav2Vec2 Deepfake</span>
+      </div>
+      <div class="w-full h-32 border-2 border-dashed border-gray-700 rounded-xl flex items-center justify-center bg-gray-900/50 hover:border-emerald-500/50 transition-colors relative overflow-hidden">
+        <input type="file" (change)="onFileSelected($event, 'audio')" accept="audio/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"/>
+        <p class="text-sm font-mono text-gray-500 pointer-events-none">Drop audio or click to browse</p>
+      </div>
+      <button (click)="analyzeFile('audio/detect')" [disabled]="!selectedFile || loading"
+              class="mt-4 w-full bg-emerald-600/20 hover:bg-emerald-500/40 border border-emerald-500/50 text-emerald-300 font-semibold py-3 px-4 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed">
+        Execute Audio Analysis
+      </button>
+    </div>
+
+  </div>
+</div>

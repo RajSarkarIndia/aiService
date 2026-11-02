@@ -1,0 +1,63 @@
+AI Service - Run Commands
+=========================
+
+LINUX 
+-------------
+
+cd /path/to/aiService
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+python main.py
+
+If the virtual environment already exists:
+
+cd /path/to/aiService
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+python main.py
+
+
+WINDOWS POWERSHELL
+------------------
+
+cd C:\path\to\aiService
+py -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+python main.py
+
+If PowerShell blocks activation:
+
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+.\.venv\Scripts\Activate.ps1
+
+
+WINDOWS COMMAND PROMPT
+----------------------
+
+cd C:\path\to\aiService
+py -m venv .venv
+.venv\Scripts\activate.bat
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+python main.py
+
+
+FRONTEND
+--------
+
+Run these commands in a second terminal:
+
+cd frontend
+npm install
+npm start
+
+
+URLS
+----
+
+Backend API: http://127.0.0.1:8001
+Frontend:    http://localhost:4200/

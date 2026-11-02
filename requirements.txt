@@ -4,6 +4,9 @@ python-multipart
 pydantic
 huggingface_hub
 Pillow
+pillow-heif
+numpy
+av
 torch
 transformers>=5.0.0
 sentence-transformers[image]

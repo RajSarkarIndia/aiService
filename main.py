@@ -11,6 +11,7 @@ import torch
 import torch.nn as nn
 from fastapi import APIRouter, FastAPI, File, HTTPException, UploadFile
 from fastapi.concurrency import run_in_threadpool
+from fastapi.middleware.cors import CORSMiddleware
 from huggingface_hub import snapshot_download
 from PIL import Image, ImageOps, ImageSequence, UnidentifiedImageError
 from pydantic import BaseModel, Field
@@ -32,6 +33,16 @@ logger = logging.getLogger("ai-detector")
 # ---------------- Application ----------------
 
 app = FastAPI(title="AI Content Detection API")
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:4200",
+        "http://127.0.0.1:4200",
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 router = APIRouter(prefix="/api/ai", tags=["AI Detection"])
 
 MAX_FILE_SIZE = 50 * 1024 * 1024  # 50 MB
@@ -452,4 +463,4 @@ app.include_router(router)
 if __name__ == "__main__":
     import uvicorn
 
-    uvicorn.run(app, host="0.0.0.0", port=int(os.getenv("PORT", "8001")))
+    uvicorn.run(app, host="127.0.0.1", port=int(os.getenv("PORT", "8001")))
