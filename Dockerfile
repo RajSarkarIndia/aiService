@@ -20,9 +20,9 @@ RUN useradd --create-home --shell /bin/bash app \
 
 COPY requirements.txt .
 RUN python -m pip install --upgrade pip \
-    && python -m pip install -r requirements.txt
+    && python -m pip install --no-cache-dir -r requirements.txt
 
-COPY --chown=app:app main.py .
+COPY --chown=app:app . .
 
 USER app
 EXPOSE 8001

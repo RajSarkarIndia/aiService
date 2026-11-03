@@ -64,5 +64,4 @@ Frontend:    http://localhost:4200/
 
 
 
-docker run --name aiservice-frontend --rm -p 4200:4200 aiservice-frontend:latest
-
+docker run -d --name aiservice-frontend --restart unless-stopped -p 4000:4000 aiservicefrontend:latest

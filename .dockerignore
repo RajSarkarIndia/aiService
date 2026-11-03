@@ -1,0 +1,12 @@
+.git
+.gitignore
+.idea
+.venv
+venv
+__pycache__
+*.py[cod]
+frontend
+dist
+build
+*.log
+RUN_COMMANDS.txt

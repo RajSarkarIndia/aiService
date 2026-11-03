@@ -17,4 +17,4 @@ COPY --from=build /app/dist/frontend/browser ./dist
 
 EXPOSE 4200
 
-CMD ["http-server", "dist", "--host", "0.0.0.0", "--port", "4200"]
+CMD ["http-server", "dist", "--host", "0.0.0.0", "--port", "4000"]
