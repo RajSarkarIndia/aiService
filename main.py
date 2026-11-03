@@ -40,6 +40,7 @@ app.add_middleware(
         "http://127.0.0.1:4200",
         "http://localhost:4000",
         "http://127.0.0.1:4000",
+        "https://ai.engivat.com/",
     ],
     allow_credentials=True,
     allow_methods=["*"],
