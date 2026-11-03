@@ -16,7 +16,7 @@ export class Home {
   loading: boolean = false;
   statusMessage: string = 'Awaiting input...';
 
-  private readonly API_BASE = 'http://127.0.0.1:8001/api/ai';
+  private readonly API_BASE = 'https://aiapi.engivat.com/api/ai';
 
   constructor(private cdr: ChangeDetectorRef, private http: HttpClient) {
     this.triggerCDR('Component Initialized');
